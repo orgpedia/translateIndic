@@ -185,14 +185,14 @@ class Translator:
             return_attention_mask=True,
         ).to(DEVICE)
         num_tokens = len(inputs["input_ids"]) * len(inputs["input_ids"][0])
-        print(f"Before generate: {memory_usage()} num_tokens: {num_tokens}")
+        #print(f"Before generate: {memory_usage()} num_tokens: {num_tokens}")
 
         with torch.inference_mode():
             outputs = self.model.generate(
                 **inputs, num_beams=3, num_return_sequences=1, max_length=256
             )
 
-        print(f"After generate: {memory_usage()}")
+        print(f"\tAfter generate: {memory_usage()}")
 
         outputs = self.tokenizer.batch_decode(outputs, src=False)
         outputs = self.processor.postprocess_batch(outputs, lang=self.tgt_lang)
